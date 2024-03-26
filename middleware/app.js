@@ -22,7 +22,7 @@ app.use(middleware1);
 app.use(middleware2);
 app.use(errorHandler);
 
-app.get('/',middleware3, (req, res, next) => {
+app.get('/', (req, res, next) => {
     console.log('I am the standard Express function');
     res.send(`<h1>Hello World</h1>`);
 });
