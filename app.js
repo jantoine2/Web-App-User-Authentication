@@ -34,6 +34,9 @@ app.use(session({
 // Need to require the entire Passport config module so app.js knows about it
 require('./config/passport');
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Imports all of the routes from ./routes/index.js
 app.use(routes);
 
