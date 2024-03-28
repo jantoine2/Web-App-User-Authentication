@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const connection = require('./database');
 const { validPassword } = require('../lib/passwordUtils');
 const User = connection.models.User;
+const validPassword = require('../lib/passwordUtils').validPassword;
 
 const customFields = {
     usernameField: 'uname',
