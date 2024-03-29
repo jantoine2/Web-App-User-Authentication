@@ -3,9 +3,10 @@ const passport = require('passport');
 const genPassword = require('../lib/passwordUtils');
 const passwordUtils = require('../lib/passwordUtils').genPassword;
 const connection = require('../config/database');
-const { isAuth } = require('./authMiddleware');
+const { isAuth, isAdmin } = require('./authMiddleware');
 const User = connection.models.User;
 const isAuth = require('./authMiddleware').isAuth;
+const isAdmin = require('./authMiddleware').isAdmin;
 
 /**
  *  --------- POST ROUTES -----------
@@ -24,7 +25,8 @@ router.post('/register', (req, res, next) => {
     const newUser = new User({
         username: req.body.uname,
         hash: hash,
-        salt: salt
+        salt: salt,
+        admin: true
     });
 
     newUser.save()
@@ -64,6 +66,12 @@ router.get('/protected-route', isAuth, (req, res, next) => {
     
     // This is how you check if a user is authenticated and protect a route. You could turn this into a custom middleware to make it less redundant
     res.send('You made it to the route.');
+});
+
+router.get('/admin-route', isAdmin, (req, res, next) => {
+    
+    // This is how you check if a user is authenticated and protect a route. You could turn this into a custom middleware to make it less redundant
+    res.send('You made it to the admin route.');
 });
 
 // Visiting this route logs the user out
