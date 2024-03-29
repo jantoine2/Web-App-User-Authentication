@@ -3,7 +3,9 @@ const passport = require('passport');
 const genPassword = require('../lib/passwordUtils');
 const passwordUtils = require('../lib/passwordUtils').genPassword;
 const connection = require('../config/database');
+const { isAuth } = require('./authMiddleware');
 const User = connection.models.User;
+const isAuth = require('./authMiddleware').isAuth;
 
 /**
  *  --------- POST ROUTES -----------
@@ -58,14 +60,10 @@ router.get('/register', (req, res, next) => {
     res.send(form);
 });
 
-router.get('/protected-route', (req, res, next) => {
+router.get('/protected-route', isAuth, (req, res, next) => {
     
     // This is how you check if a user is authenticated and protect a route. You could turn this into a custom middleware to make it less redundant
-    if (req.isAuthenticated()) {
-        res.send('<h1>You are authenticated</h1><p><a href="/logout">Logout and reload</a></p>');
-    } else {
-        res.send('<h1>You are not authenticated</h1><p><a href="/login">Login</a></p>');
-    }
+    res.send('You made it to the route.');
 });
 
 // Visiting this route logs the user out
