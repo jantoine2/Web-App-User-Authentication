@@ -23,3 +23,4 @@ function genKeyPair() {
 }
 
 module.exports.genKeyPair = genKeyPair;
+genKeyPair();
